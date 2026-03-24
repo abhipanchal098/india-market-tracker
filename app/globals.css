@@ -63,3 +63,21 @@ body {
 .dark * {
   scrollbar-color: #1f2937 #0a0e17;
 }
+
+/* Thin horizontal scrollbar for card rows */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 2px;
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #1f2937;
+}

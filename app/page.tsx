@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { useMarketData } from "@/hooks/useMarketData";
 import { MarketHeader } from "@/components/MarketHeader";
 import { CategorySection } from "@/components/CategorySection";
+import { ChartModal } from "@/components/ChartModal";
 import { CATEGORIES, getSymbolsByCategory } from "@/lib/symbols";
+import { SymbolMeta } from "@/types";
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useMarketData();
+  const [selectedSymbol, setSelectedSymbol] = useState<SymbolMeta | null>(null);
 
   return (
     <div className="min-h-screen">
@@ -26,15 +30,23 @@ export default function DashboardPage() {
             symbols={getSymbolsByCategory(category)}
             quotes={data?.quotes ?? {}}
             isLoading={isLoading}
+            onCardClick={setSelectedSymbol}
           />
         ))}
 
         <footer className="mt-8 pb-4 text-center text-xs text-gray-400 dark:text-gray-600 font-mono">
           Data sourced from Yahoo Finance. Prices may be delayed.
           <br />
-          Auto-refreshes every 60 seconds.
+          Auto-refreshes every second.
         </footer>
       </main>
+
+      {selectedSymbol && (
+        <ChartModal
+          meta={selectedSymbol}
+          onClose={() => setSelectedSymbol(null)}
+        />
+      )}
     </div>
   );
 }

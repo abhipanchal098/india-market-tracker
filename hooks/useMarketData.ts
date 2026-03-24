@@ -11,9 +11,9 @@ export function useMarketData() {
       if (!res.ok) throw new Error("Failed to fetch market data");
       return res.json();
     },
-    refetchInterval: 2_000,
+    refetchInterval: 1_000,
     refetchIntervalInBackground: false,
-    staleTime: 1_000,
+    staleTime: 500,
     retry: 2,
     retryDelay: 5000,
   });

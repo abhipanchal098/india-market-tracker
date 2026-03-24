@@ -3,14 +3,16 @@
 import { SymbolMeta, QuoteData } from "@/types";
 import { formatPrice, formatChange, formatCompactPrice } from "@/lib/formatters";
 import { MiniSparkline } from "./MiniSparkline";
+import { FlipNumber } from "./FlipNumber";
 
 interface IndexCardProps {
   meta: SymbolMeta;
   data?: QuoteData;
   isLoading: boolean;
+  onClick?: () => void;
 }
 
-export function IndexCard({ meta, data, isLoading }: IndexCardProps) {
+export function IndexCard({ meta, data, isLoading, onClick }: IndexCardProps) {
   if (isLoading) {
     return (
       <div className="bg-gray-100 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 rounded-lg p-4 animate-pulse">
@@ -44,9 +46,13 @@ export function IndexCard({ meta, data, isLoading }: IndexCardProps) {
     data.changePercent
   );
   const isPositive = data.change >= 0;
+  const priceStr = formatPrice(data.price, meta);
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 rounded-lg p-4 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
+    <div
+      onClick={onClick}
+      className="bg-gray-50 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 rounded-lg p-4 hover:border-gray-300 dark:hover:border-gray-600 transition-colors cursor-pointer active:scale-[0.98]"
+    >
       <div className="flex justify-between items-start mb-2">
         <span className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-gray-400">
           {meta.shortName}
@@ -54,12 +60,14 @@ export function IndexCard({ meta, data, isLoading }: IndexCardProps) {
         <MiniSparkline data={data.sparklineData} isPositive={isPositive} />
       </div>
 
-      <p className="text-xl font-mono font-bold text-gray-900 dark:text-white mb-1">
-        {formatPrice(data.price, meta)}
-      </p>
+      <div className="text-xl font-mono font-bold text-gray-900 dark:text-white mb-1">
+        <FlipNumber value={priceStr} />
+      </div>
 
       <div className="flex items-center justify-between mb-2">
-        <span className={`text-sm font-mono ${colorClass}`}>{changeText}</span>
+        <span className={`text-sm font-mono ${colorClass}`}>
+          <FlipNumber value={changeText} />
+        </span>
         <MarketStateBadge state={data.marketState} />
       </div>
 
