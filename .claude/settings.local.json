@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Bash(dir \"e:\\\\NextJs\\\\StockMarket\")",
+      "WebSearch",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias=\"@/*\" --use-npm)",
+      "Bash(npm --version)",
+      "Bash(npx --version)"
+    ]
+  }
+}
